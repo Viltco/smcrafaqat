@@ -41,41 +41,13 @@
                     <button string="Compute" name="action_compute_deductions" type="object"/>
                 </header>
             </xpath>
-
-             <xpath expr="//field[@name='net_wage']" position="attributes">
-                 <attribute name="invisible">1</attribute>
-             </xpath>
-
-            <xpath expr="//field[@name='basic_wage']" position="attributes">
-                 <attribute name="invisible">1</attribute>
-             </xpath>
-
-            <xpath expr="//field[@name='number']" position="attributes">
-                 <attribute name="invisible">1</attribute>
-             </xpath>
-
-             <xpath expr="//field[@name='payslip_run_id']" position="attributes">
-                 <attribute name="invisible">1</attribute>
-             </xpath>
-
-            <xpath expr="//field[@name='date_start']" position="attributes">
-                 <attribute name="invisible">1</attribute>
-             </xpath>
-
-            <xpath expr="//field[@name='basic_wage']" position="after">
-                <field name='net_wage_basic' readonly="1"/>
-            </xpath>
-
             <xpath expr="//field[@name='net_wage']" position="before">
                 <field name='current_balance'/>
                 <field name='balance'/>
                 <field name='conveyance'/>
                 <field name='mobile_allowance'/>
                 <field name='meal_allowance'/>
-                <field name='days_dec' readonly="1"/>
-                <field name='total_deductions' decoration-bf="1" readonly="1"/>
-
-                <field name='net_wage_total' decoration-bf="1" readonly="1"/>
+                <!--                    <field name='other'/>-->
             </xpath>
 
         </field>
@@ -100,12 +72,6 @@
             <xpath expr="//field[@name='work_email']" position="after">
                 <field name="partner_ids" widget="many2many_tags"/>
             </xpath>
-<!--            <xpath expr="//field[@name='address_id']" position="attributes">-->
-<!--                <attribute name="domain">[('is_employee', '=', True)]</attribute>-->
-<!--            </xpath>-->
-<!--            <xpath expr="//field[@name='address_home_id']" position="attributes">-->
-<!--                <attribute name="domain">[('is_employee', '=', True)]</attribute>-->
-<!--            </xpath>-->
         </field>
     </record>
 
