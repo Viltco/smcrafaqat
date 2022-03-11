@@ -1,1 +1,1 @@
-# smcrafaqat
+# SMC
