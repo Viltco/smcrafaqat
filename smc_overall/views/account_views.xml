@@ -80,6 +80,10 @@
                 </group>
             </xpath>
 
+            <xpath expr="//field[@name='ref']" position="after">
+                    <field name="address_id"/>
+            </xpath>
+
              <xpath expr="//page/field[@name='invoice_line_ids']/tree/field[@name='quantity']" position="after">
                 <field name="return_qty"/>
             </xpath>

@@ -23,10 +23,19 @@ class HrPayslipInh(models.Model):
     conveyance = fields.Float('Old Advance')
     mobile_allowance = fields.Float('Current Advance')
     meal_allowance = fields.Float('Absent Days')
-    balance = fields.Float('Old Balance', compute='compute_balance')
-    current_balance = fields.Float('Current Balance', compute='compute_current_balance')
+    balance = fields.Float('Old Balance')
+    current_balance = fields.Float('Current Balance')
     address_id = fields.Many2one('res.partner')
     work_location = fields.Char('Work Location')
+
+    net_wage_total = fields.Float('Net Wage')
+    net_wage_basic = fields.Float('Basic Wage')
+    total_deductions = fields.Float('Total Deductions')
+    days_dec = fields.Float('Days Dec')
+
+    def action_add_address(self):
+        for rec in self:
+            rec.move_id.address_id = rec.address_id.id
 
     def action_payslip_done(self):
         record = super(HrPayslipInh, self).action_payslip_done()
@@ -44,6 +53,7 @@ class HrPayslipInh(models.Model):
                     line.partner_id = new_partner
                 if line.account_id.is_old:
                     line.partner_id = old_partner
+
         return record
 
     def compute_sheet(self):
@@ -55,9 +65,19 @@ class HrPayslipInh(models.Model):
             lines = [(0, 0, line) for line in payslip._get_payslip_lines()]
             payslip.write({'line_ids': lines, 'number': number, 'state': 'verify', 'compute_date': fields.Date.today(), 'address_id': payslip.employee_id.address_id.id,
                            'work_location': payslip.employee_id.work_location})
+            total_ded = 0
+            for rec in payslip.line_ids:
+                if rec.code == 'NET':
+                    payslip.net_wage_total = rec.total
+                if rec.category_id.code == 'DED':
+                    total_ded = total_ded + rec.total
+                if rec.code == 'ADS':
+                    payslip.days_dec = rec.total
+            payslip.total_deductions = total_ded
+            payslip.net_wage_basic = payslip.contract_id.wage
         return True
 
-    def compute_current_balance(self):
+    def compute_current_balance(self,):
         for rec in self:
             if rec.employee_id.partner_ids:
                 employee = -1
@@ -69,10 +89,11 @@ class HrPayslipInh(models.Model):
                     partner_ledger = self.env['account.move.line'].search(
                         [('partner_id', '=', employee.id),
                          ('move_id.state', '=', 'posted'), ('full_reconcile_id', '=', False), ('balance', '!=', 0),
-                         ('account_id.reconcile', '=', True), ('full_reconcile_id', '=', False), '|',
-                         ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable')])
+                          ('full_reconcile_id', '=', False), '|', '|',
+                         ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable'), ('account_id.internal_type', '=', 'other')])
 
                     for par_rec in partner_ledger:
+                        if par_rec.account_id.user_type_id.name != 'Current Liabilities':
                             bal = bal + (par_rec.debit - par_rec.credit)
                 rec.current_balance = bal
             else:
@@ -87,16 +108,72 @@ class HrPayslipInh(models.Model):
                         employee = p
                 bal = 0
                 if employee != -1:
+                    # partner_ledger = self.env['account.move.line'].search(
+                    #     [('partner_id', '=', employee.id),
+                    #      ('move_id.state', '=', 'posted'), ('full_reconcile_id', '=', False), ('balance', '!=', 0),
+                    #      ('account_id.reconcile', '=', True), ('full_reconcile_id', '=', False), '|',
+                    #      ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable')])
                     partner_ledger = self.env['account.move.line'].search(
                         [('partner_id', '=', employee.id),
-                         ('move_id.state', '=', 'posted'), ('full_reconcile_id', '=', False), ('balance', '!=', 0),
-                         ('account_id.reconcile', '=', True), ('full_reconcile_id', '=', False), '|',
-                         ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable')])
+                         ('move_id.state', '=', 'posted'), ('full_reconcile_id', '=', False), ('balance', '!=', 0), '|', '|',
+                          ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable'), ('full_reconcile_id', '=', False), ('account_id.internal_type', '=', 'other')])
                     for par_rec in partner_ledger:
-                        bal = bal + (par_rec.debit - par_rec.credit)
+                        if par_rec.account_id.user_type_id.name != 'Current Liabilities':
+                            bal = bal + (par_rec.debit - par_rec.credit)
                 rec.balance = bal
             else:
                 rec.balance = 0
+
+
+    # def compute_current_balance(self):
+    #     for rec in self:
+    #         if rec.employee_id.partner_ids:
+    #             employee = -1
+    #             for p in rec.employee_id.partner_ids:
+    #                 if p.is_current:
+    #                     employee = p
+    #             bal = 0
+    #             if employee != -1:
+    #                 partner_ledger = self.env['account.move.line'].search(
+    #                     [('partner_id', '=', employee.id),
+    #                      ('move_id.state', '=', 'posted'), ('full_reconcile_id', '=', False), ('balance', '!=', 0),
+    #                       ('full_reconcile_id', '=', False), '|', '|',
+    #                      ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable'), ('account_id.internal_type', '=', 'other')])
+    #
+    #                 for par_rec in partner_ledger:
+    #                     if par_rec.account_id.user_type_id.name != 'Current Liabilities':
+    #                         bal = bal + (par_rec.debit - par_rec.credit)
+    #             rec.current_balance = bal
+    #         else:
+    #             rec.current_balance = 0
+    #
+    # def compute_balance(self):
+    #     for rec in self:
+    #         if rec.employee_id.partner_ids:
+    #             employee = -1
+    #             for p in rec.employee_id.partner_ids:
+    #                 if not p.is_current:
+    #                     employee = p
+    #             bal = 0
+    #             if employee != -1:
+    #                 # partner_ledger = self.env['account.move.line'].search(
+    #                 #     [('partner_id', '=', employee.id),
+    #                 #      ('move_id.state', '=', 'posted'), ('full_reconcile_id', '=', False), ('balance', '!=', 0),
+    #                 #      ('account_id.reconcile', '=', True), ('full_reconcile_id', '=', False), '|',
+    #                 #      ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable')])
+    #                 partner_ledger = self.env['account.move.line'].search(
+    #                     [('partner_id', '=', employee.id),
+    #                      ('move_id.state', '=', 'posted'), ('full_reconcile_id', '=', False), ('balance', '!=', 0), '|', '|',
+    #                       ('account_id.internal_type', '=', 'payable'), ('account_id.internal_type', '=', 'receivable'), ('full_reconcile_id', '=', False), ('account_id.internal_type', '=', 'other')])
+    #                 print(partner_ledger)
+    #                 for par_rec in partner_ledger:
+    #                     print(par_rec.name)
+    #                     print()
+    #                     if par_rec.account_id.user_type_id.name != 'Current Liabilities':
+    #                         bal = bal + (par_rec.debit - par_rec.credit)
+    #             rec.balance = bal
+    #         else:
+    #             rec.balance = 0
 
     def action_compute_deductions(self):
         for rec in self:
@@ -113,6 +190,8 @@ class HrPayslipInh(models.Model):
                 if line.code == 'ADS':
                     line.amount = rec.meal_allowance
                     line.total = rec.meal_allowance
+        self.compute_current_balance()
+        self.compute_balance()
             # val = {
             #     'Conveyance': rec.conveyance
             # }

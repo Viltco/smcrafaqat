@@ -61,6 +61,12 @@ class ResPartnerInh(models.Model):
     is_supplier = fields.Boolean(default=False, compute='compute_is_supplier')
     # is_current = fields.Boolean('Current Account')
     currency_id = fields.Many2one('res.currency')
+    property_account_receivable_id = fields.Many2one('account.account', company_dependent=True,
+                                                     string="Account Receivable",
+                                                     domain="[('internal_type', 'in', ['receivable','other']), ('deprecated', '=', False), ('company_id', '=', current_company_id)]",
+                                                     help="This account will be used instead of the default one as the receivable account for the current partner",
+                                                     required=True)
+    # is_employee = fields.Boolean()
 
     def compute_is_supplier(self):
         for rec in self:
@@ -87,6 +93,7 @@ class StockPickingInh(models.Model):
 
     user_id = fields.Many2one('res.users', related='sale_id.user_id')
     manager_id = fields.Many2one('res.users', related='sale_id.manager_id')
+    ref = fields.Char('Reference')
 
 
 class StockWarehouseInh(models.Model):

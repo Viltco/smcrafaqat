@@ -70,6 +70,7 @@ class AccountMoveInh(models.Model):
     _inherit = 'account.move'
 
     customer_balance = fields.Float('Balance', compute='compute_customer_balance')
+    address_id = fields.Many2one('res.partner')
 
     def compute_customer_balance(self):
         for rec in self:
