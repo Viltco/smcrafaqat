@@ -11,7 +11,10 @@
     "category": "Human Resources/Payroll",
     "depends": ['hr_payroll'],
     "data": [
+        'security/ir.model.access.csv',
         'report/payroll_report.xml',
+        'report/payroll_pdf.xml',
+         'wizard/payroll_wizard.xml',
     ],
     "images": [
         'images/main_screenshot.png'
