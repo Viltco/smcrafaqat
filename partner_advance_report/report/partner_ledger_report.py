@@ -115,21 +115,14 @@ class CustomReport(models.AbstractModel):
         return now_dubai.strftime('%d/%m/%Y %H:%M:%S')
 
     def _get_report_values(self, docids, data=None):
-        print(docids)
         old = self.get_partner_old(docids)
         current = self.get_partner_current(docids)
         partner = self.env['res.partner'].browse([docids[0]])
-        print(partner)
-        # openbal = self.get_opening_bal(data)
-        # closingbal = self.get_closing_bal(data)
         return {
             'doc_ids': self.ids,
             'doc_model': 'partner.ledger',
-            # 'openbal': openbal,
             'print_date': self.get_print_date(),
             'login_user': self.env.user.name,
-            # 'foreign_openbal': self.get_foreign_opening_bal(data),
-            # 'closingbal': closingbal + openbal,
             'old': old,
             'current': current,
             'partner': partner,

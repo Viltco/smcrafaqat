@@ -9,6 +9,12 @@ class ResCompanyInh(models.Model):
     _inherit = 'res.company'
 
     cs = fields.Char('CS')
+    social_twitter = fields.Char()
+    social_facebook = fields.Char()
+    social_github = fields.Char()
+    social_linkedin = fields.Char()
+    social_youtube = fields.Char()
+    social_instagram = fields.Char()
 
 
 class SaleOrderInh(models.Model):

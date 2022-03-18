@@ -27,12 +27,12 @@
                 <h3 class="text-center">Old Advance</h3>
                 <table class="table table-sm" name="account_lines_table" style="border-bottom:1px solid black;">
                     <tr style="border-bottom:1px solid black;">
-                        <td style="border-bottom:1px solid black;"><strong>Date</strong></td>
-                        <td style="border-bottom:1px solid black;"><strong>Voucher#</strong></td>
-                        <td style="border-bottom:1px solid black;"><strong>Details</strong></td>
-                        <td style="border-bottom:1px solid black;" class="text-right"><strong>Debit</strong></td>
-                        <td style="border-bottom:1px solid black;" class="text-right"><strong>Credit</strong></td>
-                        <td style="border-bottom:1px solid black;" class="text-right"><strong>Balance</strong></td>
+                        <td style="border-bottom:1px solid black;" width="10%"><strong>Date</strong></td>
+                        <td style="border-bottom:1px solid black;" width="20%"><strong>Voucher#</strong></td>
+                        <td style="border-bottom:1px solid black;" width="30%"><strong>Details</strong></td>
+                        <td style="border-bottom:1px solid black;" class="text-right" width="10%"><strong>Debit</strong></td>
+                        <td style="border-bottom:1px solid black;" class="text-right" width="10%"><strong>Credit</strong></td>
+                        <td style="border-bottom:1px solid black;" class="text-right" width="20%"><strong>Balance</strong></td>
                     </tr>
                     <tbody>
 
@@ -45,13 +45,13 @@
                             <t t-set="bal" t-value="bal + (d.debit - d.credit)"/>
                             <t t-set="total_debit" t-value="total_debit + d.debit"/>
                             <t t-set="total_credit" t-value="total_credit + d.credit"/>
-                            <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="d.date" t-options="{'widget': 'date'}"/></td>
-                            <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="d.move_id.name"/></td>
-                            <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="d.name"/></td>
-                            <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(d.debit))"/></td>
-                            <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(d.credit))"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-left" width="10%"><span t-esc="d.date" t-options="{'widget': 'date'}"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-left" width="20%"><span t-esc="d.move_id.name"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-left" width="30%"><span t-esc="d.name"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-right" width="10%"><t t-esc="'{0:,.0f}'.format(int(d.debit))"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-right" width="10%"><t t-esc="'{0:,.0f}'.format(int(d.credit))"/></td>
                             <!--                            <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="d.amount_currency" t-options='{"widget": "monetary", "display_currency": d.currency_id}'/></td>-->
-                            <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(bal))"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-right" width="20%"><t t-esc="'{0:,.0f}'.format(int(bal))"/></td>
                         </tr>
                         <tr style="border-top:1px solid #000;">
                             <td  style="border-bottom:1px solid black;" colspan="3" class="text-left"><strong>Closing Balance</strong></td>
@@ -70,13 +70,12 @@
                 <h3 class="text-center">Current Advance</h3>
                 <table class="table table-sm" name="account_lines_table" style="border-bottom:1px solid black;">
                     <tr style="border-bottom:1px solid black;">
-                        <td style="border-bottom:1px solid black;"><strong>Date</strong></td>
-                        <td style="border-bottom:1px solid black;"><strong>Voucher#</strong></td>
-                        <td style="border-bottom:1px solid black;"><strong>Details</strong></td>
-                        <td style="border-bottom:1px solid black;" class="text-right"><strong>Debit</strong></td>
-                        <td style="border-bottom:1px solid black;" class="text-right"><strong>Credit</strong></td>
-                        <!--                        <td style="border-bottom:1px solid black;" class="text-right"><strong>Amount In Currency</strong></td>-->
-                        <td style="border-bottom:1px solid black;" class="text-right"><strong>Balance</strong></td>
+                        <td style="border-bottom:1px solid black;" width="10%"><strong>Date</strong></td>
+                        <td style="border-bottom:1px solid black;" width="20%"><strong>Voucher#</strong></td>
+                        <td style="border-bottom:1px solid black;" width="30%"><strong>Details</strong></td>
+                        <td style="border-bottom:1px solid black;" class="text-right" width="10%"><strong>Debit</strong></td>
+                        <td style="border-bottom:1px solid black;" class="text-right" width="10%"><strong>Credit</strong></td>
+                        <td style="border-bottom:1px solid black;" class="text-right" width="20%"><strong>Balance</strong></td>
                     </tr>
                     <tbody>
                         <!--                        <tr>-->
@@ -93,13 +92,13 @@
                             <t t-set="bal" t-value="bal + (d.debit - d.credit)"/>
                             <t t-set="total_debit" t-value="total_debit + d.debit"/>
                             <t t-set="total_credit" t-value="total_credit + d.credit"/>
-                            <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="d.date" t-options="{'widget': 'date'}"/></td>
-                            <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="d.move_id.name"/></td>
-                            <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="d.name"/></td>
-                            <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(d.debit))"/></td>
-                            <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(d.credit))"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-left" width="10%"><span t-esc="d.date" t-options="{'widget': 'date'}"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-left" width="20%"><span t-esc="d.move_id.name"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-left" width="30%"><span t-esc="d.name"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-right" width="10%"><t t-esc="'{0:,.0f}'.format(int(d.debit))"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-right" width="10%"><t t-esc="'{0:,.0f}'.format(int(d.credit))"/></td>
                             <!--                            <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="d.amount_currency" t-options='{"widget": "monetary", "display_currency": d.currency_id}'/></td>-->
-                            <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(bal))"/></td>
+                            <td style="border-bottom:1px solid black;" class="text-right" width="20%"><t t-esc="'{0:,.0f}'.format(int(bal))"/></td>
                         </tr>
                         <tr style="border-top:1px solid #000;">
                             <td  style="border-bottom:1px solid black;" colspan="3" class="text-left"><strong>Closing Balance</strong></td>
