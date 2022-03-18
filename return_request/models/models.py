@@ -25,7 +25,7 @@ class ReturnRequest(models.Model):
     state = fields.Selection(
         [('user', 'User'), ('manager', 'Manager'), ('director', 'Director'), ('approved', 'Approved'),
          ('done', 'Validated'),
-         ('rejected', 'Rejected')], string="State", readonly=True, default="user", tracking=1)
+         ('rejected', 'Rejected'), ('cancel', 'Cancel')], string="State", readonly=True, default="user", tracking=1)
     is_check_qty = fields.Boolean(default=False, compute='compute_check_quantity')
     is_sent_for_second_approval = fields.Boolean(default=False)
     is_second_approved = fields.Boolean(default=False)
@@ -36,6 +36,10 @@ class ReturnRequest(models.Model):
     invoice_ids = fields.Many2many('account.move', compute='onchange_get_invoices')
     name = fields.Char('Return Request', required=True, copy=False, readonly=True,
                        index=True, default=lambda self: _('New'))
+    cust_address = fields.Char('Address', related="partner_id.street")
+
+    def action_cancel(self):
+        self.state = 'cancel'
 
     def action_assign_branch(self):
         object = self.env['return.bash'].search([])

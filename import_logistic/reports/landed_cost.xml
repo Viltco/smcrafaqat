@@ -17,15 +17,15 @@
         <field name="dpi">90</field>
     </record>
     <!-- QWeb Reports -->
-<!--    <report-->
-<!--            id="landed_cost_report"-->
-<!--            string="Landed Cost Report"-->
-<!--            model="stock.picking"-->
-<!--            report_type="qweb-pdf"-->
-<!--            name="import_logistic.report_landed_cost_inh"-->
-<!--            file="import_logistic.report_landed_cost_inh"-->
-<!--            paperformat="paperformat_landed_cost"-->
-<!--    />-->
+    <!--    <report-->
+    <!--            id="landed_cost_report"-->
+    <!--            string="Landed Cost Report"-->
+    <!--            model="stock.picking"-->
+    <!--            report_type="qweb-pdf"-->
+    <!--            name="import_logistic.report_landed_cost_inh"-->
+    <!--            file="import_logistic.report_landed_cost_inh"-->
+    <!--            paperformat="paperformat_landed_cost"-->
+    <!--    />-->
     <report
             id="landed_cost_report"
             string="Landed Cost Report"
@@ -74,22 +74,22 @@
                         </div>
                         <div class="row">
                             <div class="col-6" style="font-size:17px;">
-                               <strong> GD No: </strong><span class="m-0" t-field="o.gd_no"/>
+                                <strong> GD No: </strong><span class="m-0" t-field="o.gd_no"/>
                             </div>
                             <div class="col-6" style="font-size:17px;">
-                               <strong> Clearing Agent Bill No No: </strong><span class="m-0" t-field="o.clearing_no"/>
+                                <strong> Clearing Agent Bill No: </strong><span class="m-0" t-field="o.clearing_no"/>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6" style="font-size:17px;">
                                 <strong>INV No: </strong><span class="m-0" t-field="o.inv_no"/>
                             </div>
-<!--                            <div class="col-6">-->
-<!--                                <span class="m-0" t-field="o.bl_no"/>-->
-<!--                            </div>-->
+                            <!--                            <div class="col-6">-->
+                            <!--                                <span class="m-0" t-field="o.bl_no"/>-->
+                            <!--                            </div>-->
                         </div>
 
-<!--                        <table><tr><td>&#160;</td></tr></table><br/><br/>-->
+                        <!--                        <table><tr><td>&#160;</td></tr></table><br/><br/>-->
                         <t t-set="grand_total_sale" t-value="0"/>
                         <t t-set="grand_total_cost" t-value="0"/>
                         <t t-set="grand_total_fc" t-value="0"/>
@@ -103,11 +103,12 @@
                                     <th name="th_quantity" class="text-center"  style="border:1px solid black;"><strong>QTY</strong></th>
                                     <th name="th_price_unit" class="text-center"  style="border:1px solid black;"><strong>UOM</strong></th>
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>INV Value</strong></th>
+                                    <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Unit Price(PKR)</strong></th>
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>INV Total</strong></th>
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Unit Ass Val</strong></th>
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Assd Total</strong></th>
-<!--                                    <th name="th_amount" class="text-center"><strong>Val in PKR</strong></th>-->
-<!--                                    <th name="th_amount" class="text-center"><strong>Per unit in PKR</strong></th>-->
+                                    <!--                                    <th name="th_amount" class="text-center"><strong>Val in PKR</strong></th>-->
+                                    <!--                                    <th name="th_amount" class="text-center"><strong>Per unit in PKR</strong></th>-->
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Unit C.D</strong></th>
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Total C.D</strong></th>
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Other Unit Cost</strong></th>
@@ -118,7 +119,7 @@
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Sale Rate</strong></th>
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Sale Total</strong></th>
                                     <th name="th_amount" class="text-center"  style="border:1px solid black;"><strong>Margin(%)</strong></th>
-<!--                                    <th name="th_amount" class="text-right"><strong>Picture</strong></th>-->
+                                    <!--                                    <th name="th_amount" class="text-right"><strong>Picture</strong></th>-->
                                 </tr>
                             </thead>
                             <tbody>
@@ -134,7 +135,7 @@
                                     <t t-set="total_cost" t-value="0"/>
                                     <t t-set="sale_total" t-value="0"/>
                                     <tr style="font-weight:bold;font-size:20px;border:1px solid black;"  >
-                                        <td id="customer" colspan="19" style="border:1px solid black;">
+                                        <td id="customer" colspan="20" style="border:1px solid black;">
                                             <span t-field="purchase.partner_id.name"/>
                                         </td>
                                     </tr>
@@ -167,8 +168,12 @@
                                             <td id="product" class="text-right" style="border:1px solid black;">
                                                 <span t-field="line.product_uom"/>
                                             </td>
+
                                             <td id="product" class="text-right" style="border:1px solid black;">
                                                 <span t-field="line.unit_pricefc" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
+                                            </td>
+                                            <td id="product" class="text-right" style="border:1px solid black;">
+                                                <span t-esc="line.unit_pricefc * o.fx_rate" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
                                             </td>
                                             <td id="product" class="text-right" style="border:1px solid black;">
                                                 <span t-field="line.sub_total_fc" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>
@@ -180,12 +185,12 @@
                                                 <span t-field="line.total_assessed_value" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 1}"/>
                                             </td>
                                             <t t-set="fx" t-value="o.fx_rate"/>
-<!--                                            <td id="product">-->
-<!--                                                <span t-esc="(line.product_qty * line.unit_pricefc) * fx" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>-->
-<!--                                            </td>-->
-<!--                                            <td id="product">-->
-<!--                                                <span t-esc="line.unit_pricefc * fx" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>-->
-<!--                                            </td>-->
+                                            <!--                                            <td id="product">-->
+                                            <!--                                                <span t-esc="(line.product_qty * line.unit_pricefc) * fx" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>-->
+                                            <!--                                            </td>-->
+                                            <!--                                            <td id="product">-->
+                                            <!--                                                <span t-esc="line.unit_pricefc * fx" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/>-->
+                                            <!--                                            </td>-->
                                             <td id="product" class="text-right" style="border:1px solid black;">
                                                 <span t-esc="line.cust_duty/line.product_qty" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 1}"/>
                                             </td>
@@ -198,7 +203,6 @@
                                             <td id="product" class="text-right" style="border:1px solid black;">
                                                 <span t-field="line.other_charges" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 1}"/>
                                             </td>
-
                                             <td id="product" class="text-right" style="border:1px solid black;">
                                                 <span t-esc="(line.unit_pricefc * fx) + (line.cust_duty/line.product_qty) + (line.other_charges/line.product_qty)" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 1}"/>
                                             </td>
@@ -215,8 +219,6 @@
                                             <td id="product" class="text-right" style="border:1px solid black;">
                                                 <span t-esc="sale_total_my*100" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 1}"/>
                                             </td>
-<!--                                            <td>-->
-<!--                                            </td>-->
                                             <t t-set="unit_cost_total" t-value="unit_cost_total + (line.unit_pricefc * fx) + (line.cust_duty/line.product_qty) + (line.other_charges/line.product_qty)"/>
                                             <t t-set="total_cost" t-value="total_cost + ((line.product_qty * line.unit_pricefc) * fx)+(line.cust_duty) + (line.other_charges)"/>
                                             <t t-set="sale_total" t-value="sale_total + line.product_id.lst_price * line.product_qty"/>
@@ -224,40 +226,34 @@
                                         </tr>
                                     </t>
                                     <tr>
-                                        <td style="border:1px solid black;" colspan="19">
+                                        <td style="border:1px solid black;" colspan="20">
 
                                         </td>
                                     </tr>
-
                                     <tr>
                                         <td colspan="2" style="border:1px solid black;font-weight:bold;"><strong>Total</strong></td>
-<!--                                        <td></td>-->
+                                        <!--                                        <td></td>-->
                                         <td style="border:1px solid black;"></td>
                                         <td style="border:1px solid black;"></td>
                                         <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="total_qty" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>
                                         <td style="border:1px solid black;"></td>
                                         <td style="border:1px solid black;"></td>
+                                        <td style="border:1px solid black;"></td>
                                         <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="total_fc" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>
-<!--                                        <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="assess_val" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>-->
+                                        <!--                                        <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="assess_val" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>-->
                                         <td style="border:1px solid black;"></td>
                                         <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="total_assess_val" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>
-<!--                                        <td></td>-->
+                                        <!--                                        <td></td>-->
                                         <td style="border:1px solid black;"></td>
                                         <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="total_cd" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>
                                         <td style="border:1px solid black;"></td>
                                         <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="total_other_charges" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>
-<!--                                        <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="unit_cost_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>-->
+                                        <!--                                        <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="unit_cost_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>-->
                                         <td style="border:1px solid black;"></td>
                                         <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="total_cost" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>
-<!--                                        <td></td>-->
-<!--                                        <td></td>-->
                                         <td style="border:1px solid black;"></td>
                                         <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="sale_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>
                                         <td style="font-size:18px;border:1px solid black;font-weight:bold;" class="text-right"><strong><span t-esc="total_margin/count" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></strong></td>
-<!--                                        <td></td>-->
-<!--                                        <td></td>-->
-<!--                                        <td></td>-->
-<!--                                        <td></td>-->
                                     </tr>
                                     <t t-set="grand_total_sale" t-value="grand_total_sale + sale_total"/>
                                     <t t-set="grand_total_cost" t-value="grand_total_cost + total_cost"/>
@@ -266,68 +262,70 @@
                             </tbody>
                         </table>
 
-                        <table width="40%" style="page-break-inside: auto;">
-                            <tr>
-                                <td class="text-center" style="font-size:20px;border:1px solid black;padding:5px;" >Total Sale</td>
-                                <td class="text-right" style="font-size:20px;border:1px solid black;padding:5px;" ><span t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}" t-esc="grand_total_sale"/></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="font-size:20px;border:1px solid black;padding:5px;" >Total Cost</td>
-                                <td class="text-right" style="font-size:20px;border:1px solid black;padding:5px;" ><span t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}" t-esc="grand_total_cost"/></td>
-                            </tr>
-                            <tr>
-                                <td class="text-center" style="font-size:20px;border:1px solid black;padding:5px;font-weight:bold;" >Profit</td>
-                                <td class="text-right" style="font-size:20px;border:1px solid black;padding:5px;font-weight:bold;" ><span t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}" t-esc="grand_total_sale - grand_total_cost"/></td>
-                            </tr>
-                        </table>
-                        <br/>
 
-                        <table width="40%" style="table-layout:fixed;page-break-inside: avoid;">
-                            <thead class="thead-light">
+                        <div style="page-break-inside:avoid;">
+                            <table width="40%" style="page-break-inside: avoid;">
                                 <tr>
-                                    <th name="th_description" class="text-center" colspan="2" style="border:1px solid black;padding:5px;"><h4>Expense Overview</h4></th>
+                                    <td class="text-center" style="font-size:20px;border:1px solid black;padding:5px;" >Total Sale</td>
+                                    <td class="text-right" style="font-size:20px;border:1px solid black;padding:5px;" ><span t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}" t-esc="grand_total_sale"/></td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                <t t-set="lc" t-value="o.get_lc()"/>
-                                <t t-set="lc_total" t-value="0"/>
-                                <t t-foreach="lc.cost_lines" t-as="line">
-                                    <tr class="text-center">
-                                        <td style="border:1px solid black;padding:5px;font-size:20px;"><span t-field="line.product_id.name" /></td>
-                                        <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;"><span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
-                                        <t t-set="lc_total" t-value="lc_total + line.price_unit"/>
+                                <tr>
+                                    <td class="text-center" style="font-size:20px;border:1px solid black;padding:5px;" >Total Cost</td>
+                                    <td class="text-right" style="font-size:20px;border:1px solid black;padding:5px;" ><span t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}" t-esc="grand_total_cost"/></td>
+                                </tr>
+                                <tr>
+                                    <td class="text-center" style="font-size:20px;border:1px solid black;padding:5px;font-weight:bold;" >Profit</td>
+                                    <td class="text-right" style="font-size:20px;border:1px solid black;padding:5px;font-weight:bold;" ><span t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}" t-esc="grand_total_sale - grand_total_cost"/></td>
+                                </tr>
+                            </table>
+                            <br/>
+
+                            <table width="40%" style="table-layout:fixed;page-break-inside:avoid;">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th name="th_description" class="text-center" colspan="2" style="border:1px solid black;padding:5px;"><h4>Expense Overview</h4></th>
                                     </tr>
-                                </t>
-                                <tr class="text-center">
-                                    <td style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;">Total</td>
-                                    <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;"><span t-esc="lc_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                        <br/>
+                                </thead>
+                                <tbody>
+                                    <t t-set="lc" t-value="o.get_lc()"/>
+                                    <t t-set="lc_total" t-value="0"/>
+                                    <t t-foreach="lc.cost_lines" t-as="line">
+                                        <tr class="text-center">
+                                            <td style="border:1px solid black;padding:5px;font-size:20px;"><span t-field="line.product_id.name" /></td>
+                                            <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;"><span t-field="line.price_unit" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                            <t t-set="lc_total" t-value="lc_total + line.price_unit"/>
+                                        </tr>
+                                    </t>
+                                    <tr class="text-center">
+                                        <td style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;">Total</td>
+                                        <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;"><span t-esc="lc_total" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <br/>
 
-                        <table width="40%" style="table-layout:fixed;page-break-inside: avoid;">
-                            <thead class="thead-light">
-                                <tr>
-                                    <th name="th_description" class="text-center" colspan="2" style="border:1px solid black;padding:5px;"><h4>Invoice Value in Pkr</h4></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr class="text-center">
-                                    <td style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;">Total Invoice In Currency(<span t-esc="o.currency_id.symbol"/>)</td>
-                                    <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;"><span t-esc="grand_total_fc" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;">Rate</td>
-                                    <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;"><span t-esc="o.fx_rate" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
-                                </tr>
-                                <tr class="text-center">
-                                    <td style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;">Total</td>
-                                    <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;"><span t-esc="o.fx_rate * grand_total_fc" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
-                                </tr>
-                            </tbody>
-                        </table>
-
+                            <table width="40%" style="table-layout:fixed;page-break-inside: avoid;">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th name="th_description" class="text-center" colspan="2" style="border:1px solid black;padding:5px;"><h4>Invoice Value in Pkr</h4></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr class="text-center">
+                                        <td style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;">Total Invoice In Currency(<span t-esc="o.currency_id.symbol"/>)</td>
+                                        <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;"><span t-esc="grand_total_fc" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;">Rate</td>
+                                        <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;"><span t-esc="o.fx_rate" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    </tr>
+                                    <tr class="text-center">
+                                        <td style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;">Total</td>
+                                        <td class="text-right" style="border:1px solid black; padding:5px;font-size:20px;font-weight:bold;"><span t-esc="o.fx_rate * grand_total_fc" t-options="{&quot;widget&quot;: &quot;float&quot;, &quot;precision&quot;: 2}"/></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     </div>
                 </t>
             </t>

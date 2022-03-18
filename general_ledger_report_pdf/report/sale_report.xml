@@ -101,19 +101,20 @@
             <div class="article o_report_layout_standard" t-att-data-oe-model="doc and doc._name"
                  t-att-data-oe-id="doc and doc.id">
                 <t t-call="general_ledger_report_pdf.general_ledger_report_header_footer"/>
-                <div class="page">
+                <div class="page" t-if="type == 'detail'">
                     <table class="table table-sm" name="account_lines_table" style="border-bottom:1px solid black;">
                         <tr style="border-bottom:1px solid black;">
                             <td style="border-bottom:1px solid black;width:10%;"><strong>Date</strong></td>
                             <td style="border-bottom:1px solid black;width:15%;"><strong>Voucher#</strong></td>
                             <td style="border-bottom:1px solid black; width:25%;"><strong>Details</strong></td>
+                            <td style="border-bottom:1px solid black; width:25%;"><strong>Partner</strong></td>
                             <td style="border-bottom:1px solid black; width:15%;" class="text-right"><strong>Debit</strong></td>
                             <td style="border-bottom:1px solid black;width:15%;" class="text-right"><strong>Credit</strong></td>
                             <td style="border-bottom:1px solid black;width:20%;" class="text-right"><strong>Balance</strong></td>
                         </tr>
                         <tbody>
                             <tr>
-                                <strong> <td style="border-bottom:1px solid black;" colspan="5" class="text-left"><strong>Opening Balance</strong></td></strong>
+                                <strong> <td style="border-bottom:1px solid black;" colspan="6" class="text-left"><strong>Opening Balance</strong></td></strong>
                                 <!--                            <td style="border-bottom:1px solid black;" class="text-right"><strong><span t-esc="openbal"/></strong></td>-->
                                 <td style="border-bottom:1px solid black;" class="text-right"><strong><span t-esc="'{0:,.0f}'.format(int(opening))"/></strong></td>
                             </tr>
@@ -129,16 +130,63 @@
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="l.date" t-options="{'widget': 'date'}"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="l.move_id.name"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="l.name"/></td>
+                                <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="l.partner_id.name"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(l.debit))"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(l.credit))"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(bal))"/></td>
                             </tr>
                             <tr style="border-top:1px solid #000; font-size:10px;">
-                                <td  style="border-bottom:1px solid black; font-size:13px;" colspan="3" class="text-left"><strong>Closing Balance</strong></td>
+                                <td  style="border-bottom:1px solid black; font-size:13px;" colspan="4" class="text-left"><strong>Closing Balance</strong></td>
                                 <td  style="border-bottom:1px solid black; font-size:13px;" class="text-right"><strong><t t-esc="'{0:,.0f}'.format(int(total_debit))"/></strong></td>
                                 <td  style="border-bottom:1px solid black; font-size:13px;" class="text-right"><strong><t t-esc="'{0:,.0f}'.format(int(total_credit))"/></strong></td>
                                 <!--                            <td  style="border-bottom:1px solid black;" class="text-right"><strong><t t-esc="'{0:,.0f}'.format(int(amount_currency))"/></strong></td>-->
                                 <td  style="border-bottom:1px solid black; font-size:13px;" class="text-right"><strong><t t-esc="'{0:,.0f}'.format(int(closing))"/></strong></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="page" t-if="type == 'summary'">
+                    <table class="table table-sm" name="account_lines_table_summary" style="border-bottom:1px solid black;">
+                        <tr style="border-bottom:1px solid black;">
+<!--                            <td style="border-bottom:1px solid black;width:10%;"><strong>Date</strong></td>-->
+<!--                            <td style="border-bottom:1px solid black;width:15%;"><strong>Voucher#</strong></td>-->
+<!--                            <td style="border-bottom:1px solid black; width:25%;"><strong>Details</strong></td>-->
+                            <td style="border-bottom:1px solid black; width:15%;" class="text-right"><strong>Debit</strong></td>
+                            <td style="border-bottom:1px solid black;width:15%;" class="text-right"><strong>Credit</strong></td>
+                            <td style="border-bottom:1px solid black;width:20%;" class="text-right"><strong>Balance</strong></td>
+                        </tr>
+                        <tbody>
+                            <tr>
+                                <strong> <td style="border-bottom:1px solid black;" colspan="5" class="text-left"><strong>Sum</strong></td></strong>
+                                <!--                            <td style="border-bottom:1px solid black;" class="text-right"><strong><span t-esc="openbal"/></strong></td>-->
+<!--                                <td style="border-bottom:1px solid black;" class="text-right"><strong><span t-esc="'{0:,.0f}'.format(int(opening))"/></strong></td>-->
+                            </tr>
+                            <t t-set="summ" t-value="summary"/>
+<!--                            <t t-set="bal" t-value="opening"/>-->
+<!--                            <t t-set="counter" t-value="0"/>-->
+<!--                            <t t-set="total_debit" t-value="0"/>-->
+<!--                            <t t-set="total_credit" t-value="0"/>-->
+                            <tr style="font-size: 13px;" >
+<!--                                <t t-set="bal" t-value="bal+(l['debit] - l['credit'])"/>-->
+<!--                                <t t-set="total_debit" t-value="total_debit + l['debit]"/>-->
+<!--                                <t t-set="total_credit" t-value="total_credit + l['credit']"/>-->
+<!--                                <t t-set="counter" t-value="counter + 1"/>-->
+<!--                                <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="l['date']" t-options="{'widget': 'date'}"/></td>-->
+<!--                                <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="l['move_id']"/></td>-->
+<!--                                <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="l['name']"/></td>-->
+<!--                                <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(summary['debit']))"/></td>-->
+                                <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(summ['debit'])"/></td>
+<!--                                <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(summary['credit']))"/></td>-->
+                                <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(summ['credit'])"/></td>
+<!--                                <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(int(summary['balance']))"/></td>-->
+                                <td style="border-bottom:1px solid black;" class="text-right"><t t-esc="'{0:,.0f}'.format(summ['balance'])"/></td>
+                            </tr>
+                            <tr style="border-top:1px solid #000; font-size:10px;">
+<!--                                <td  style="border-bottom:1px solid black; font-size:13px;" colspan="3" class="text-left"><strong>Closing Balance</strong></td>-->
+<!--                                <td  style="border-bottom:1px solid black; font-size:13px;" class="text-right"><strong><t t-esc="'{0:,.0f}'.format(int(total_debit))"/></strong></td>-->
+<!--                                <td  style="border-bottom:1px solid black; font-size:13px;" class="text-right"><strong><t t-esc="'{0:,.0f}'.format(int(total_credit))"/></strong></td>-->
+                                <!--                            <td  style="border-bottom:1px solid black;" class="text-right"><strong><t t-esc="'{0:,.0f}'.format(int(amount_currency))"/></strong></td>-->
+<!--                                <td  style="border-bottom:1px solid black; font-size:13px;" class="text-right"><strong><t t-esc="'{0:,.0f}'.format(int(closing))"/></strong></td>-->
                             </tr>
                         </tbody>
                     </table>

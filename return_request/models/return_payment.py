@@ -8,6 +8,7 @@ class AccountPaymentInh(models.Model):
     _inherit = 'account.payment'
 
     return_id = fields.Many2one('returns.payment')
+    # available_partner_bank_ids = fields.Many2many('res.bank')
 
     def action_cancel(self):
         record = super(AccountPaymentInh, self).action_cancel()
