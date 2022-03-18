@@ -25,4 +25,12 @@
            file="de_partner_ledger.de_partner_ledger_pdf_report"
            name="de_partner_ledger.de_partner_ledger_pdf_report"
            paperformat="paperformat_partner_ledger"/>
+
+   <report id="partner_ledger_hic_pdf"
+           string="Partner Ledger-HIC Report"
+           model="partner.ledger"
+           report_type="qweb-pdf"
+           file="de_partner_ledger.de_partner_ledger_hic_pdf_report"
+           name="de_partner_ledger.de_partner_ledger_hic_pdf_report"
+           paperformat="paperformat_partner_ledger"/>
 </odoo>
