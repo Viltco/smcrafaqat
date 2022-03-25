@@ -30,7 +30,6 @@
                 </group>
                 <footer>
                     <button name="print_report" type="object" string="Print" class="oe_highlight"/>
-                    <button name="hic_report" type="object" string="Print-HIC" class="oe_highlight"/>
                     <button string="Cancel" class="btn btn-default" special="cancel"/>
                 </footer>
             </form>

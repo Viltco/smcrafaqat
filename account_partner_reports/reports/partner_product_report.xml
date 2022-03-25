@@ -20,6 +20,9 @@
                             <td style="border-bottom:1px solid black;"><strong>Date</strong></td>
                             <td style="border-bottom:1px solid black;"><strong>Invoice#</strong></td>
                             <td style="border-bottom:1px solid black;"><strong>Item Details</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>Article No</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>Finish No</strong></td>
+                            <td style="border-bottom:1px solid black;"><strong>System Code</strong></td>
                             <td style="border-bottom:1px solid black;"><strong>Unit</strong></td>
                             <td style="border-bottom:1px solid black;"><strong>Rate</strong></td>
                             <td style="border-bottom:1px solid black;"><strong>QTY</strong></td>
@@ -32,6 +35,9 @@
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="invoice.invoice_date" t-options="{'widget': 'date'}"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="invoice.name"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="line.product_id.name"/></td>
+                                <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="line.product_id.article_no"/></td>
+                                <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="line.product_id.finish_no"/></td>
+                                <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="line.product_id.system_code"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="line.product_uom_id.name"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="line.price_unit"/></td>
                                 <td style="border-bottom:1px solid black;" class="text-left"><span t-esc="line.quantity"/></td>
